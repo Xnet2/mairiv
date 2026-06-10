@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>סרטון היום</title>
+<title>מעייריב</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;800&display=swap" rel="stylesheet">
 <style>
@@ -39,12 +39,11 @@
     border-bottom: 1px solid var(--border);
   }
 
-  .logo {
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--accent);
+  .logo img {
+    height: 42px;
+    width: auto;
+    display: block;
+    filter: brightness(1.1);
   }
 
   .date-badge {
@@ -60,6 +59,17 @@
     padding: 48px 24px 0;
   }
 
+  .hero-logo {
+    display: block;
+    margin-bottom: 28px;
+  }
+
+  .hero-logo img {
+    height: clamp(56px, 10vw, 96px);
+    width: auto;
+    filter: brightness(1.1);
+  }
+
   .today-label {
     display: inline-flex;
     align-items: center;
@@ -69,14 +79,14 @@
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--accent);
-    margin-bottom: 20px;
+    margin-bottom: 16px;
   }
 
   .today-label::before {
     content: '';
     display: inline-block;
-    width: 8px;
-    height: 8px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
     background: var(--accent);
     animation: pulse 2s ease-in-out infinite;
@@ -239,7 +249,9 @@
 <body>
 
 <header>
-  <span class="logo">סרטון יומי</span>
+  <span class="logo">
+    <img src="https://i.postimg.cc/4y4jQYnn/image-removebg-preview-(1).png" alt="מעייריב">
+  </span>
   <span class="date-badge" id="todayDate"></span>
 </header>
 
@@ -297,6 +309,9 @@
     const app = document.getElementById('app');
     app.innerHTML = `
       <section class="hero">
+        <div class="hero-logo">
+          <img src="https://i.postimg.cc/4y4jQYnn/image-removebg-preview-(1).png" alt="מעייריב">
+        </div>
         <div class="today-label">סרטון היום</div>
         <h1 class="hero-title">${main.title || 'ללא כותרת'}</h1>
         ${main.description ? `<p class="hero-description">${main.description}</p>` : ''}
