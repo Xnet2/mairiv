@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>סרטון היום</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d0d0d;
+    --surface: #161616;
+    --surface2: #1f1f1f;
+    --border: #2a2a2a;
+    --accent: #e8ff47;
+    --accent-dim: rgba(232,255,71,0.12);
+    --text: #f0f0f0;
+    --text-muted: #888;
+    --text-dim: #555;
+    --radius: 12px;
+  }
+
+  body {
+    font-family: 'Heebo', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    direction: rtl;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    padding: 24px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .date-badge {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 300;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 48px 24px 0;
+  }
+
+  .today-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+
+  .today-label::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+
+  .hero-title {
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+
+  .hero-description {
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--text-muted);
+    line-height: 1.7;
+    max-width: 620px;
+    margin-bottom: 32px;
+  }
+
+  /* ─── VIDEO PLAYER ─── */
+  .video-wrap {
+    position: relative;
+    width: 100%;
+    background: #000;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .video-wrap video {
+    width: 100%;
+    display: block;
+    max-height: 540px;
+  }
+
+  /* ─── META BAR ─── */
+  .meta-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 48px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .meta-bar .dot { color: var(--text-dim); }
+
+  /* ─── ARCHIVE ─── */
+  .archive {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 20px;
+  }
+
+  .archive-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .archive-card {
+    background: var(--surface);
+    padding: 20px;
+    cursor: pointer;
+    transition: background 0.15s;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .archive-card:hover {
+    background: var(--surface2);
+  }
+
+  .archive-card:hover .card-title {
+    color: var(--accent);
+  }
+
+  .card-date {
+    font-size: 11px;
+    color: var(--text-dim);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+  }
+
+  .card-title {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.4;
+    transition: color 0.15s;
+  }
+
+  .card-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 300;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* ─── LOADING / ERROR ─── */
+  .state-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    gap: 16px;
+    color: var(--text-muted);
+    font-weight: 300;
+  }
+
+  .spinner {
+    width: 36px;
+    height: 36px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .error-icon { font-size: 32px; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 600px) {
+    header { padding: 16px 20px; }
+    .hero { padding: 32px 16px 0; }
+    .archive { padding: 0 16px 60px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="logo">סרטון יומי</span>
+  <span class="date-badge" id="todayDate"></span>
+</header>
+
+<div id="app">
+  <div class="state-screen">
+    <div class="spinner"></div>
+    <span>טוען נתונים…</span>
+  </div>
+</div>
+
+<script>
+  // ─── CONFIG ───────────────────────────────────────────
+  const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTzJUjlfupcAshzh4hsGjpUOuHh3749n3xY3_rI1Fqhy9TquRIpv_dAtDGY_DCugo1cv8UA_zSjlt1S/pub?gid=0&single=true&output=csv';
+  // ──────────────────────────────────────────────────────
+
+  // Set today's date in header
+  document.getElementById('todayDate').textContent = new Date().toLocaleDateString('he-IL', {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+  });
+
+  function parseCSV(text) {
+    const lines = text.trim().split('\n');
+    if (lines.length < 2) return [];
+    const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
+    return lines.slice(1).map(line => {
+      // Handle commas inside quoted fields
+      const cols = [];
+      let cur = '', inQ = false;
+      for (let i = 0; i < line.length; i++) {
+        const c = line[i];
+        if (c === '"') { inQ = !inQ; }
+        else if (c === ',' && !inQ) { cols.push(cur.trim()); cur = ''; }
+        else { cur += c; }
+      }
+      cols.push(cur.trim());
+      const row = {};
+      headers.forEach((h, i) => row[h] = (cols[i] || '').replace(/^"|"$/g, ''));
+      return row;
+    }).filter(r => r.date && r.video_url);
+  }
+
+  function formatDate(dateStr) {
+    try {
+      const d = new Date(dateStr);
+      return d.toLocaleDateString('he-IL', { year: 'numeric', month: 'long', day: 'numeric' });
+    } catch { return dateStr; }
+  }
+
+  function renderApp(videos) {
+    // Sort by date descending
+    videos.sort((a, b) => new Date(b.date) - new Date(a.date));
+    const main = videos[0];
+    const archive = videos.slice(1);
+
+    const app = document.getElementById('app');
+    app.innerHTML = `
+      <section class="hero">
+        <div class="today-label">סרטון היום</div>
+        <h1 class="hero-title">${main.title || 'ללא כותרת'}</h1>
+        ${main.description ? `<p class="hero-description">${main.description}</p>` : ''}
+        <div class="video-wrap">
+          <video id="mainVideo" controls preload="metadata">
+            <source src="${main.video_url}" type="video/mp4">
+            הדפדפן שלך אינו תומך בהפעלת וידאו.
+          </video>
+        </div>
+        <div class="meta-bar">
+          <span>${formatDate(main.date)}</span>
+        </div>
+      </section>
+
+      ${archive.length > 0 ? `
+      <section class="archive">
+        <div class="section-label">סרטונים קודמים</div>
+        <div class="archive-grid">
+          ${archive.map(v => `
+            <div class="archive-card" onclick="playVideo('${v.video_url}', '${(v.title||'').replace(/'/g,"\\'")}', '${(v.description||'').replace(/'/g,"\\'")}', '${v.date}')">
+              <div class="card-date">${formatDate(v.date)}</div>
+              <div class="card-title">${v.title || 'ללא כותרת'}</div>
+              ${v.description ? `<div class="card-desc">${v.description}</div>` : ''}
+            </div>
+          `).join('')}
+        </div>
+      </section>
+      ` : ''}
+    `;
+  }
+
+  function playVideo(url, title, desc, date) {
+    document.querySelector('.today-label').textContent = formatDate(date);
+    document.querySelector('.hero-title').textContent = title;
+    const descEl = document.querySelector('.hero-description');
+    if (descEl) descEl.textContent = desc;
+    const video = document.getElementById('mainVideo');
+    video.src = url;
+    video.load();
+    video.play();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function showError(msg) {
+    document.getElementById('app').innerHTML = `
+      <div class="state-screen">
+        <div class="error-icon">⚠️</div>
+        <span>${msg}</span>
+      </div>
+    `;
+  }
+
+  // ─── FETCH ───────────────────────────────────────────
+  fetch(SHEET_URL)
+    .then(r => {
+      if (!r.ok) throw new Error('שגיאה בטעינת הנתונים');
+      return r.text();
+    })
+    .then(text => {
+      const videos = parseCSV(text);
+      if (!videos.length) throw new Error('לא נמצאו סרטונים בגיליון');
+      renderApp(videos);
+    })
+    .catch(err => showError(err.message));
+</script>
+</body>
+</html>
