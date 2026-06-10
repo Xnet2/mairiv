@@ -302,9 +302,9 @@
 
   function renderApp(videos) {
     // Sort by date descending
-    videos.sort((a, b) => new Date(a.date) - new Date(b.date));
-    const main = videos[0];
-    const archive = videos.slice(1);
+    // Last row in sheet = newest (no sorting needed)
+    const main = videos[videos.length - 1];
+    const archive = videos.slice(0, -1).reverse();
 
     const app = document.getElementById('app');
     app.innerHTML = `
