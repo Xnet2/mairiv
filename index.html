@@ -113,22 +113,40 @@
   .hero-title {
     margin-bottom: 18px;
     display: inline-flex;
+    align-items: center;
     background: var(--header-bg);
-    padding: 14px 22px;
+    padding: 16px 28px;
     border-radius: var(--radius-sm);
   }
 
-  .hero-logo-img {
-    height: clamp(40px, 6vw, 58px);
-    width: auto;
-    display: block;
+  .hero-wordmark {
+    font-family: 'Assistant', sans-serif;
+    font-weight: 800;
+    font-style: italic;
+    font-size: clamp(28px, 4.4vw, 42px);
+    color: #fff;
+    letter-spacing: -0.01em;
+    transform: skewX(-8deg);
+    position: relative;
+    display: inline-block;
+    padding-bottom: 6px;
+  }
+
+  .hero-wordmark::after {
+    content: '';
+    position: absolute;
+    right: 0; left: 0; bottom: 0;
+    height: 5px;
+    background: linear-gradient(90deg, var(--gold-deep), var(--gold));
+    transform: skewX(8deg);
+    border-radius: 2px;
   }
 
   .hero-description {
-    font-size: 16px;
-    font-weight: 300;
-    color: var(--ink-muted);
-    line-height: 1.85;
+    font-size: 19px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.75;
     max-width: 760px;
     margin-bottom: 26px;
     white-space: pre-line;
@@ -431,15 +449,32 @@
   .archive-card-title {
     display: inline-flex;
     background: var(--header-bg);
-    padding: 5px 10px;
+    padding: 6px 11px;
     border-radius: 6px;
     width: fit-content;
   }
 
-  .archive-logo-img {
-    height: 15px;
-    width: auto;
-    display: block;
+  .archive-wordmark {
+    font-family: 'Assistant', sans-serif;
+    font-weight: 800;
+    font-style: italic;
+    font-size: 13px;
+    color: #fff;
+    letter-spacing: -0.01em;
+    transform: skewX(-8deg);
+    position: relative;
+    display: inline-block;
+    padding-bottom: 3px;
+  }
+
+  .archive-wordmark::after {
+    content: '';
+    position: absolute;
+    right: 0; left: 0; bottom: 0;
+    height: 2.5px;
+    background: linear-gradient(90deg, var(--gold-deep), var(--gold));
+    transform: skewX(8deg);
+    border-radius: 2px;
   }
 
   .archive-card-desc {
@@ -577,7 +612,7 @@
     app.innerHTML = `
       <section class="hero">
         <div class="today-label"><span class="pulse-dot"></span><span id="kickerText">סרטון היום</span></div>
-        <h1 class="hero-title" id="videoTitle"><img class="hero-logo-img" src="https://i.postimg.cc/4y4jQYnn/image-removebg-preview-(1).png" alt="מעייריב"></h1>
+        <h1 class="hero-title" id="videoTitle"><span class="hero-wordmark">מעייריב</span></h1>
         ${mainVideo.description ? `<p class="hero-description" id="videoDesc">${esc(mainVideo.description)}</p>` : `<p class="hero-description" id="videoDesc" style="display:none"></p>`}
 
         <div class="content-layout">
@@ -627,7 +662,7 @@
                   </div>
                   <div class="archive-info">
                     <span class="archive-card-date">${formatDate(v.date)}</span>
-                    <span class="archive-card-title"><img class="archive-logo-img" src="https://i.postimg.cc/4y4jQYnn/image-removebg-preview-(1).png" alt="מעייריב"></span>
+                    <span class="archive-card-title"><span class="archive-wordmark">מעייריב</span></span>
                     ${v.description ? `<span class="archive-card-desc">${esc(v.description)}</span>` : ''}
                   </div>
                 </div>
