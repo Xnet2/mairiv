@@ -5,212 +5,436 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>מעייריב</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&family=Suez+One&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg: #0d0d0d;
-    --surface: #161616;
-    --surface2: #1f1f1f;
-    --border: #2a2a2a;
-    --accent: #e8ff47;
-    --accent-dim: rgba(232,255,71,0.12);
-    --text: #f0f0f0;
-    --text-muted: #888;
-    --text-dim: #555;
-    --radius: 12px;
+    --bg: #FAF8F2;
+    --surface: #FFFFFF;
+    --surface-2: #F3EEDD;
+    --border: #E8E1CB;
+    --header-bg: #141310;
+    --ink: #18160F;
+    --ink-muted: #7A735D;
+    --ink-dim: #B0A88C;
+    --gold: #F2B705;
+    --gold-deep: #B8860A;
+    --gold-pale: #FCEEBA;
+    --radius-lg: 20px;
+    --radius: 14px;
+    --radius-sm: 9px;
+    --shadow: 0 6px 28px rgba(24,22,15,0.07);
+    --shadow-lift: 0 14px 40px rgba(24,22,15,0.14);
   }
+
+  html { scroll-behavior: smooth; }
 
   body {
     font-family: 'Heebo', sans-serif;
     background: var(--bg);
-    color: var(--text);
+    color: var(--ink);
     min-height: 100vh;
     direction: rtl;
   }
 
+  :focus-visible {
+    outline: 2px solid var(--gold-deep);
+    outline-offset: 3px;
+  }
+
+  button { font-family: inherit; border: none; background: none; cursor: pointer; color: inherit; }
+  svg { display: block; }
+
   /* ─── HEADER ─── */
   header {
-    padding: 24px 40px;
+    background: var(--header-bg);
+    padding: 18px 40px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 3px solid var(--gold);
   }
 
   .logo img {
-    height: 42px;
+    height: 38px;
     width: auto;
     display: block;
-    filter: brightness(1.1);
   }
 
   .date-badge {
     font-size: 13px;
-    color: var(--text-muted);
+    color: #C9C3AE;
     font-weight: 300;
+    letter-spacing: 0.01em;
   }
 
   /* ─── HERO ─── */
   .hero {
-    max-width: 960px;
+    max-width: 1180px;
     margin: 0 auto;
-    padding: 48px 24px 0;
+    padding: 44px 32px 0;
+    animation: rise 0.5s ease both;
   }
 
-  .hero-logo {
-    display: block;
-    margin-bottom: 28px;
-  }
-
-  .hero-logo img {
-    height: clamp(56px, 10vw, 96px);
-    width: auto;
-    filter: brightness(1.1);
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   .today-label {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 16px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+    background: var(--gold);
+    padding: 6px 14px 6px 12px;
+    border-radius: 999px;
+    margin-bottom: 18px;
   }
 
-  .today-label::before {
-    content: '';
-    display: inline-block;
-    width: 7px;
-    height: 7px;
+  .today-label .pulse-dot {
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
-    background: var(--accent);
+    background: var(--ink);
     animation: pulse 2s ease-in-out infinite;
   }
 
   @keyframes pulse {
     0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(0.7); }
+    50% { opacity: 0.35; transform: scale(0.65); }
   }
 
   .hero-title {
-    font-size: clamp(28px, 5vw, 52px);
-    font-weight: 800;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-    margin-bottom: 16px;
+    font-family: 'Suez One', serif;
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 400;
+    line-height: 1.25;
+    margin-bottom: 14px;
+    color: var(--ink);
   }
 
   .hero-description {
     font-size: 16px;
     font-weight: 300;
-    color: var(--text-muted);
-    line-height: 1.7;
-    max-width: 620px;
-    margin-bottom: 32px;
+    color: var(--ink-muted);
+    line-height: 1.85;
+    max-width: 760px;
+    margin-bottom: 26px;
+    white-space: pre-line;
   }
 
-  /* ─── VIDEO PLAYER ─── */
+  /* ─── CONTENT LAYOUT (player right, archive left) ─── */
+  .content-layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 28px;
+  }
+
+  .player-column {
+    flex: 1 1 66%;
+    min-width: 0;
+  }
+
+  .sidebar-column {
+    flex: 1 1 34%;
+    min-width: 280px;
+    max-width: 380px;
+  }
+
+  /* ─── CUSTOM VIDEO PLAYER ─── */
   .video-wrap {
     position: relative;
     width: 100%;
-    background: #000;
-    border-radius: var(--radius);
+    background: #0c0c0a;
+    border-radius: var(--radius-lg);
     overflow: hidden;
-    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    aspect-ratio: 16 / 9;
   }
 
   .video-wrap video {
     width: 100%;
+    height: 100%;
     display: block;
-    max-height: 540px;
+    object-fit: contain;
+    background: #0c0c0a;
   }
 
-  /* ─── META BAR ─── */
+  .center-play-btn {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(12,12,10,0.28);
+    transition: background 0.2s;
+  }
+
+  .center-play-btn .circle {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    transition: transform 0.15s ease;
+  }
+
+  .center-play-btn:hover .circle { transform: scale(1.06); }
+  .center-play-btn.hidden { opacity: 0; pointer-events: none; }
+  .center-play-btn .circle svg { width: 30px; height: 30px; fill: var(--ink); margin-right: -3px; }
+
+  .player-controls {
+    position: absolute;
+    right: 0; left: 0; bottom: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px 12px;
+    background: linear-gradient(to top, rgba(0,0,0,0.72), rgba(0,0,0,0));
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.2s, transform 0.2s;
+  }
+
+  .video-wrap:hover .player-controls,
+  .video-wrap.paused .player-controls,
+  .video-wrap:focus-within .player-controls {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .ctrl-btn {
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    flex-shrink: 0;
+  }
+  .ctrl-btn svg { width: 20px; height: 20px; fill: #fff; }
+  .ctrl-btn:hover svg { fill: var(--gold); }
+
+  .time-display {
+    color: #f0ede2;
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    flex-shrink: 0;
+    min-width: 78px;
+    text-align: center;
+    letter-spacing: 0.01em;
+  }
+
+  .progress-wrap {
+    flex: 1;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .progress-track {
+    width: 100%;
+    height: 4px;
+    background: rgba(255,255,255,0.28);
+    border-radius: 999px;
+    position: relative;
+    overflow: visible;
+  }
+
+  .progress-buffered {
+    position: absolute;
+    top: 0; right: 0; height: 100%;
+    background: rgba(255,255,255,0.28);
+    border-radius: 999px;
+    width: 0%;
+  }
+
+  .progress-played {
+    position: absolute;
+    top: 0; right: 0; height: 100%;
+    background: var(--gold);
+    border-radius: 999px;
+    width: 0%;
+  }
+
+  .progress-thumb {
+    position: absolute;
+    top: 50%; right: 0%;
+    width: 12px; height: 12px;
+    background: var(--gold);
+    border-radius: 50%;
+    transform: translate(50%, -50%);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+  }
+
+  .volume-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .volume-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 64px;
+    height: 4px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.28);
+    cursor: pointer;
+  }
+  .volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 11px; height: 11px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+  .volume-slider::-moz-range-thumb {
+    width: 11px; height: 11px;
+    border: none;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+
+  /* ─── META BAR / BACK TO TODAY ─── */
   .meta-bar {
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 14px 0;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 48px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 16px 0 44px;
+  }
+
+  .meta-date {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     font-size: 13px;
-    color: var(--text-muted);
+    color: var(--ink-muted);
   }
+  .meta-date svg { width: 15px; height: 15px; fill: var(--ink-dim); }
 
-  .meta-bar .dot { color: var(--text-dim); }
-
-  /* ─── ARCHIVE ─── */
-  .archive {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 0 24px 80px;
-  }
-
-  .section-label {
-    font-size: 11px;
+  .back-today-btn {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
     font-weight: 600;
-    letter-spacing: 0.14em;
+    color: var(--ink);
+    background: var(--gold-pale);
+    border: 1px solid var(--gold);
+    padding: 9px 16px;
+    border-radius: 999px;
+    transition: background 0.15s, transform 0.15s;
+  }
+  .back-today-btn.visible { display: inline-flex; }
+  .back-today-btn:hover { background: var(--gold); transform: translateX(-2px); }
+  .back-today-btn svg { width: 14px; height: 14px; fill: var(--ink); }
+
+  /* ─── SIDEBAR ARCHIVE (YouTube style, to the left of the player) ─── */
+  .sidebar-column .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--text-dim);
-    margin-bottom: 20px;
+    color: var(--ink-dim);
+    margin-bottom: 14px;
+    padding-right: 2px;
   }
 
-  .archive-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-  }
-
-  .archive-card {
-    background: var(--surface);
-    padding: 20px;
-    cursor: pointer;
-    transition: background 0.15s;
+  .archive-list {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
+    max-height: 640px;
+    overflow-y: auto;
+    padding-left: 4px;
+    margin-left: -4px;
   }
 
-  .archive-card:hover {
-    background: var(--surface2);
+  .archive-list::-webkit-scrollbar { width: 6px; }
+  .archive-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 999px; }
+
+  .archive-card {
+    display: flex;
+    gap: 10px;
+    padding: 8px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background 0.15s;
+    border: 1px solid transparent;
+    text-align: right;
   }
 
-  .archive-card:hover .card-title {
-    color: var(--accent);
+  .archive-card:hover { background: var(--surface-2); }
+
+  .archive-card.active {
+    background: var(--gold-pale);
+    border-color: var(--gold);
   }
 
-  .card-date {
-    font-size: 11px;
-    color: var(--text-dim);
-    font-weight: 600;
-    letter-spacing: 0.08em;
+  .archive-thumb {
+    flex-shrink: 0;
+    width: 132px;
+    aspect-ratio: 16/9;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(135deg, #201e18, #3a3627);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .card-title {
-    font-size: 15px;
+  .archive-thumb img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .archive-thumb .thumb-play {
+    width: 26px; height: 26px;
+    opacity: 0.85;
+  }
+  .archive-thumb .thumb-play svg { width: 100%; height: 100%; fill: var(--gold); }
+
+  .archive-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .archive-card-date {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--ink-dim);
+  }
+
+  .archive-card-title {
+    font-size: 13.5px;
     font-weight: 600;
     line-height: 1.4;
-    transition: color 0.15s;
+    color: var(--ink);
   }
 
-  .card-desc {
-    font-size: 13px;
-    color: var(--text-muted);
+  .archive-card-desc {
+    font-size: 12px;
+    color: var(--ink-muted);
     font-weight: 300;
-    line-height: 1.5;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    line-height: 1.55;
   }
 
   /* ─── LOADING / ERROR ─── */
@@ -221,28 +445,38 @@
     justify-content: center;
     min-height: 60vh;
     gap: 16px;
-    color: var(--text-muted);
+    color: var(--ink-muted);
     font-weight: 300;
   }
 
   .spinner {
-    width: 36px;
-    height: 36px;
+    width: 34px;
+    height: 34px;
     border: 2px solid var(--border);
-    border-top-color: var(--accent);
+    border-top-color: var(--gold);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
   }
 
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  .error-icon { font-size: 32px; }
+  .error-icon svg { width: 32px; height: 32px; fill: var(--gold-deep); }
 
   /* ─── RESPONSIVE ─── */
+  @media (max-width: 880px) {
+    .content-layout { flex-direction: column; }
+    .sidebar-column { max-width: none; width: 100%; }
+    .archive-list { max-height: none; overflow-y: visible; }
+  }
+
   @media (max-width: 600px) {
-    header { padding: 16px 20px; }
-    .hero { padding: 32px 16px 0; }
-    .archive { padding: 0 16px 60px; }
+    header { padding: 14px 20px; }
+    .hero { padding: 32px 18px 0; }
+    .archive-thumb { width: 112px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
   }
 </style>
 </head>
@@ -267,7 +501,17 @@
   const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTzJUjlfupcAshzh4hsGjpUOuHh3749n3xY3_rI1Fqhy9TquRIpv_dAtDGY_DCugo1cv8UA_zSjlt1S/pub?gid=0&single=true&output=csv';
   // ──────────────────────────────────────────────────────
 
-  // Set today's date in header
+  const ICONS = {
+    play: '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>',
+    pause: '<svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>',
+    volumeHigh: '<svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 5V4L8 9H4zm11.5 3a4.5 4.5 0 00-2.5-4.03v8.06A4.5 4.5 0 0015.5 12zM13 3.23v2.06c3 .77 5 3.55 5 6.71s-2 5.94-5 6.71v2.06c4.01-.83 7-4.4 7-8.77s-2.99-7.94-7-8.77z"/></svg>',
+    volumeMute: '<svg viewBox="0 0 24 24"><path d="M16.5 12A4.5 4.5 0 0014 7.97v2.21l2.45 2.45c.03-.2.05-.42.05-.63zM19 12c0 .94-.2 1.82-.54 2.64l1.51 1.51A8.796 8.796 0 0021 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.79 5 3.42 5 6.71zM4.27 3L3 4.27 7.73 9H4v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06a8.99 8.99 0 003.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM11 4L8.55 6.45 11 8.9V4z"/></svg>',
+    fullscreen: '<svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>',
+    back: '<svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20z"/></svg>',
+    calendar: '<svg viewBox="0 0 24 24"><path d="M7 11h5v5H7v-5zM19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg>',
+    warn: '<svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>'
+  };
+
   document.getElementById('todayDate').textContent = new Date().toLocaleDateString('he-IL', {
     weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
   });
@@ -277,7 +521,6 @@
     if (lines.length < 2) return [];
     const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
     return lines.slice(1).map(line => {
-      // Handle commas inside quoted fields
       const cols = [];
       let cur = '', inQ = false;
       for (let i = 0; i < line.length; i++) {
@@ -300,66 +543,278 @@
     } catch { return dateStr; }
   }
 
+  function esc(str) {
+    return (str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function formatTime(sec) {
+    if (!isFinite(sec) || sec < 0) sec = 0;
+    const m = Math.floor(sec / 60);
+    const s = Math.floor(sec % 60).toString().padStart(2, '0');
+    return `${m}:${s}`;
+  }
+
+  let mainVideo, archiveVideos = [], currentIndex = -1; // -1 = main/today
+
   function renderApp(videos) {
-    // Sort by date descending
-    // Last row in sheet = newest (no sorting needed)
-    const main = videos[videos.length - 1];
-    const archive = videos.slice(0, -1).reverse();
+    // Last row in sheet = newest, no sorting needed
+    mainVideo = videos[videos.length - 1];
+    archiveVideos = videos.slice(0, -1).reverse();
 
     const app = document.getElementById('app');
     app.innerHTML = `
       <section class="hero">
-        <div class="hero-logo">
-          <img src="https://i.postimg.cc/4y4jQYnn/image-removebg-preview-(1).png" alt="מעייריב">
-        </div>
-        <div class="today-label">סרטון היום</div>
-        <h1 class="hero-title">${main.title || 'ללא כותרת'}</h1>
-        ${main.description ? `<p class="hero-description">${main.description}</p>` : ''}
-        <div class="video-wrap">
-          <video id="mainVideo" controls preload="metadata">
-            <source src="${main.video_url}" type="video/mp4">
-            הדפדפן שלך אינו תומך בהפעלת וידאו.
-          </video>
-        </div>
-        <div class="meta-bar">
-          <span>${formatDate(main.date)}</span>
-        </div>
-      </section>
+        <div class="today-label"><span class="pulse-dot"></span><span id="kickerText">סרטון היום</span></div>
+        <h1 class="hero-title" id="videoTitle">${esc(mainVideo.title) || 'ללא כותרת'}</h1>
+        ${mainVideo.description ? `<p class="hero-description" id="videoDesc">${esc(mainVideo.description)}</p>` : `<p class="hero-description" id="videoDesc" style="display:none"></p>`}
 
-      ${archive.length > 0 ? `
-      <section class="archive">
-        <div class="section-label">סרטונים קודמים</div>
-        <div class="archive-grid">
-          ${archive.map(v => `
-            <div class="archive-card" onclick="playVideo('${v.video_url}', '${(v.title||'').replace(/'/g,"\\'")}', '${(v.description||'').replace(/'/g,"\\'")}', '${v.date}')">
-              <div class="card-date">${formatDate(v.date)}</div>
-              <div class="card-title">${v.title || 'ללא כותרת'}</div>
-              ${v.description ? `<div class="card-desc">${v.description}</div>` : ''}
+        <div class="content-layout">
+          <div class="player-column">
+            <div class="video-wrap" id="videoWrap">
+              <video id="mainVideo" preload="metadata" playsinline>
+                <source src="${esc(mainVideo.video_url)}" type="video/mp4">
+                הדפדפן שלך אינו תומך בהפעלת וידאו.
+              </video>
+
+              <button class="center-play-btn" id="centerPlayBtn" aria-label="הפעל וידאו">
+                <span class="circle">${ICONS.play}</span>
+              </button>
+
+              <div class="player-controls">
+                <button class="ctrl-btn" id="playPauseBtn" aria-label="הפעל/השהה">${ICONS.play}</button>
+                <span class="time-display"><span id="curTime">0:00</span> / <span id="durTime">0:00</span></span>
+                <div class="progress-wrap" id="progressWrap">
+                  <div class="progress-track">
+                    <div class="progress-buffered" id="progressBuffered"></div>
+                    <div class="progress-played" id="progressPlayed"></div>
+                    <div class="progress-thumb" id="progressThumb"></div>
+                  </div>
+                </div>
+                <div class="volume-wrap">
+                  <button class="ctrl-btn" id="muteBtn" aria-label="השתק">${ICONS.volumeHigh}</button>
+                  <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.05" value="1" aria-label="עוצמת קול">
+                </div>
+                <button class="ctrl-btn" id="fullscreenBtn" aria-label="מסך מלא">${ICONS.fullscreen}</button>
+              </div>
             </div>
-          `).join('')}
+
+            <div class="meta-bar">
+              <span class="meta-date" id="metaDate">${ICONS.calendar}${formatDate(mainVideo.date)}</span>
+              <button class="back-today-btn" id="backTodayBtn">${ICONS.back}<span>חזרה לסרטון של היום</span></button>
+            </div>
+          </div>
+
+          ${archiveVideos.length > 0 ? `
+          <div class="sidebar-column">
+            <div class="section-label">סרטונים קודמים</div>
+            <div class="archive-list" id="archiveList">
+              ${archiveVideos.map((v, i) => `
+                <div class="archive-card" data-index="${i}" tabindex="0" role="button">
+                  <div class="archive-thumb" id="thumb-${i}">
+                    <span class="thumb-play">${ICONS.play}</span>
+                  </div>
+                  <div class="archive-info">
+                    <span class="archive-card-date">${formatDate(v.date)}</span>
+                    <span class="archive-card-title">${esc(v.title) || 'ללא כותרת'}</span>
+                    ${v.description ? `<span class="archive-card-desc">${esc(v.description)}</span>` : ''}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>` : ''}
         </div>
       </section>
-      ` : ''}
     `;
+
+    initPlayer();
+    initArchiveList();
+    generateThumbnails();
   }
 
-  function playVideo(url, title, desc, date) {
-    document.querySelector('.today-label').textContent = formatDate(date);
-    document.querySelector('.hero-title').textContent = title;
-    const descEl = document.querySelector('.hero-description');
-    if (descEl) descEl.textContent = desc;
+  // ─── PLAYER ─────────────────────────────────────────
+  function initPlayer() {
     const video = document.getElementById('mainVideo');
-    video.src = url;
+    const wrap = document.getElementById('videoWrap');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const centerPlayBtn = document.getElementById('centerPlayBtn');
+    const curTime = document.getElementById('curTime');
+    const durTime = document.getElementById('durTime');
+    const progressWrap = document.getElementById('progressWrap');
+    const progressPlayed = document.getElementById('progressPlayed');
+    const progressBuffered = document.getElementById('progressBuffered');
+    const progressThumb = document.getElementById('progressThumb');
+    const muteBtn = document.getElementById('muteBtn');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+
+    function togglePlay() {
+      if (video.paused) video.play(); else video.pause();
+    }
+
+    function updatePlayIcon() {
+      const icon = video.paused ? ICONS.play : ICONS.pause;
+      playPauseBtn.innerHTML = icon;
+      centerPlayBtn.querySelector('.circle').innerHTML = ICONS.play;
+      centerPlayBtn.classList.toggle('hidden', !video.paused);
+      wrap.classList.toggle('paused', video.paused);
+    }
+
+    playPauseBtn.addEventListener('click', togglePlay);
+    centerPlayBtn.addEventListener('click', togglePlay);
+    video.addEventListener('click', togglePlay);
+    video.addEventListener('play', updatePlayIcon);
+    video.addEventListener('pause', updatePlayIcon);
+
+    video.addEventListener('loadedmetadata', () => {
+      durTime.textContent = formatTime(video.duration);
+    });
+
+    video.addEventListener('timeupdate', () => {
+      curTime.textContent = formatTime(video.currentTime);
+      const pct = video.duration ? (video.currentTime / video.duration) * 100 : 0;
+      progressPlayed.style.width = pct + '%';
+      progressThumb.style.right = pct + '%';
+    });
+
+    video.addEventListener('progress', () => {
+      if (video.buffered.length) {
+        const end = video.buffered.end(video.buffered.length - 1);
+        const pct = video.duration ? (end / video.duration) * 100 : 0;
+        progressBuffered.style.width = pct + '%';
+      }
+    });
+
+    video.addEventListener('ended', updatePlayIcon);
+
+    function seekTo(clientX) {
+      const rect = progressWrap.getBoundingClientRect();
+      let ratio = (rect.right - clientX) / rect.width; // RTL: right edge = 0%
+      ratio = Math.min(1, Math.max(0, ratio));
+      if (video.duration) video.currentTime = ratio * video.duration;
+    }
+
+    let seeking = false;
+    progressWrap.addEventListener('mousedown', e => { seeking = true; seekTo(e.clientX); });
+    window.addEventListener('mousemove', e => { if (seeking) seekTo(e.clientX); });
+    window.addEventListener('mouseup', () => seeking = false);
+    progressWrap.addEventListener('touchstart', e => { seeking = true; seekTo(e.touches[0].clientX); });
+    progressWrap.addEventListener('touchmove', e => { if (seeking) seekTo(e.touches[0].clientX); });
+    window.addEventListener('touchend', () => seeking = false);
+
+    muteBtn.addEventListener('click', () => {
+      video.muted = !video.muted;
+      muteBtn.innerHTML = video.muted || video.volume === 0 ? ICONS.volumeMute : ICONS.volumeHigh;
+      volumeSlider.value = video.muted ? 0 : video.volume;
+    });
+
+    volumeSlider.addEventListener('input', () => {
+      video.volume = volumeSlider.value;
+      video.muted = video.volume == 0;
+      muteBtn.innerHTML = video.muted || video.volume === 0 ? ICONS.volumeMute : ICONS.volumeHigh;
+    });
+
+    fullscreenBtn.addEventListener('click', () => {
+      if (document.fullscreenElement) document.exitFullscreen();
+      else wrap.requestFullscreen();
+    });
+
+    updatePlayIcon();
+  }
+
+  // ─── ARCHIVE LIST / SWITCHING VIDEOS ─────────────────
+  function initArchiveList() {
+    const list = document.getElementById('archiveList');
+    if (!list) return;
+    list.querySelectorAll('.archive-card').forEach(card => {
+      const activate = () => playArchiveVideo(parseInt(card.dataset.index, 10));
+      card.addEventListener('click', activate);
+      card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); } });
+    });
+
+    document.getElementById('backTodayBtn').addEventListener('click', playMainVideo);
+  }
+
+  function loadVideoData(data) {
+    const video = document.getElementById('mainVideo');
+    document.getElementById('kickerText').textContent = formatDate(data.date);
+    document.getElementById('videoTitle').textContent = data.title || 'ללא כותרת';
+    const descEl = document.getElementById('videoDesc');
+    if (data.description) {
+      descEl.textContent = data.description;
+      descEl.style.display = '';
+    } else {
+      descEl.style.display = 'none';
+    }
+    document.getElementById('metaDate').innerHTML = ICONS.calendar + formatDate(data.date);
+    video.src = data.video_url;
     video.load();
     video.play();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
+  function playArchiveVideo(index) {
+    currentIndex = index;
+    loadVideoData(archiveVideos[index]);
+    document.getElementById('kickerText').textContent = formatDate(archiveVideos[index].date);
+    document.getElementById('backTodayBtn').classList.add('visible');
+    document.querySelectorAll('.archive-card').forEach(c => c.classList.remove('active'));
+    const activeCard = document.querySelector(`.archive-card[data-index="${index}"]`);
+    if (activeCard) activeCard.classList.add('active');
+  }
+
+  function playMainVideo() {
+    currentIndex = -1;
+    loadVideoData(mainVideo);
+    document.getElementById('kickerText').textContent = 'סרטון היום';
+    document.getElementById('backTodayBtn').classList.remove('visible');
+    document.querySelectorAll('.archive-card').forEach(c => c.classList.remove('active'));
+  }
+
+  // ─── THUMBNAIL GENERATION (best-effort, graceful fallback) ─────
+  function generateThumbnails() {
+    archiveVideos.forEach((v, i) => {
+      const holder = document.getElementById(`thumb-${i}`);
+      if (!holder) return;
+      try {
+        const tempVideo = document.createElement('video');
+        tempVideo.crossOrigin = 'anonymous';
+        tempVideo.preload = 'metadata';
+        tempVideo.muted = true;
+        tempVideo.src = v.video_url;
+
+        tempVideo.addEventListener('loadedmetadata', () => {
+          tempVideo.currentTime = Math.min(1.2, (tempVideo.duration || 2.4) / 3);
+        });
+
+        tempVideo.addEventListener('seeked', () => {
+          try {
+            const canvas = document.createElement('canvas');
+            canvas.width = tempVideo.videoWidth || 320;
+            canvas.height = tempVideo.videoHeight || 180;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(tempVideo, 0, 0, canvas.width, canvas.height);
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+            const img = document.createElement('img');
+            img.src = dataUrl;
+            img.alt = '';
+            holder.innerHTML = '';
+            holder.appendChild(img);
+          } catch (e) {
+            /* tainted canvas or unsupported source — keep placeholder */
+          }
+          tempVideo.remove();
+        }, { once: true });
+
+        tempVideo.addEventListener('error', () => tempVideo.remove());
+      } catch (e) { /* ignore, placeholder remains */ }
+    });
+  }
+
   function showError(msg) {
     document.getElementById('app').innerHTML = `
       <div class="state-screen">
-        <div class="error-icon">⚠️</div>
-        <span>${msg}</span>
+        <div class="error-icon">${ICONS.warn}</div>
+        <span>${esc(msg)}</span>
       </div>
     `;
   }
