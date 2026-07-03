@@ -112,7 +112,8 @@
 
   .hero-title {
     margin-bottom: 18px;
-    display: inline-flex;
+    display: flex;
+    width: fit-content;
     align-items: center;
     background: var(--header-bg);
     padding: 16px 28px;
@@ -122,24 +123,12 @@
   .hero-wordmark {
     font-family: 'Assistant', sans-serif;
     font-weight: 800;
-    font-style: italic;
     font-size: clamp(28px, 4.4vw, 42px);
     color: #fff;
     letter-spacing: -0.01em;
-    transform: skewX(-8deg);
-    position: relative;
-    display: inline-block;
-    padding-bottom: 6px;
-  }
-
-  .hero-wordmark::after {
-    content: '';
-    position: absolute;
-    right: 0; left: 0; bottom: 0;
-    height: 5px;
-    background: linear-gradient(90deg, var(--gold-deep), var(--gold));
-    transform: skewX(8deg);
-    border-radius: 2px;
+    -webkit-text-stroke: 1.4px var(--gold);
+    paint-order: stroke fill;
+    text-shadow: 0 0 0.5px var(--gold);
   }
 
   .hero-description {
@@ -457,24 +446,11 @@
   .archive-wordmark {
     font-family: 'Assistant', sans-serif;
     font-weight: 800;
-    font-style: italic;
     font-size: 13px;
     color: #fff;
     letter-spacing: -0.01em;
-    transform: skewX(-8deg);
-    position: relative;
-    display: inline-block;
-    padding-bottom: 3px;
-  }
-
-  .archive-wordmark::after {
-    content: '';
-    position: absolute;
-    right: 0; left: 0; bottom: 0;
-    height: 2.5px;
-    background: linear-gradient(90deg, var(--gold-deep), var(--gold));
-    transform: skewX(8deg);
-    border-radius: 2px;
+    -webkit-text-stroke: 0.7px var(--gold);
+    paint-order: stroke fill;
   }
 
   .archive-card-desc {
