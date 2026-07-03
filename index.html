@@ -6,7 +6,7 @@
 <title>מעייריב</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&family=Suez+One&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -32,7 +32,7 @@
   html { scroll-behavior: smooth; }
 
   body {
-    font-family: 'Heebo', sans-serif;
+    font-family: 'Assistant', sans-serif;
     background: var(--bg);
     color: var(--ink);
     min-height: 100vh;
@@ -111,12 +111,17 @@
   }
 
   .hero-title {
-    font-family: 'Suez One', serif;
-    font-size: clamp(28px, 4vw, 44px);
-    font-weight: 400;
-    line-height: 1.25;
-    margin-bottom: 14px;
-    color: var(--ink);
+    margin-bottom: 18px;
+    display: inline-flex;
+    background: var(--header-bg);
+    padding: 14px 22px;
+    border-radius: var(--radius-sm);
+  }
+
+  .hero-logo-img {
+    height: clamp(40px, 6vw, 58px);
+    width: auto;
+    display: block;
   }
 
   .hero-description {
@@ -424,10 +429,17 @@
   }
 
   .archive-card-title {
-    font-size: 13.5px;
-    font-weight: 600;
-    line-height: 1.4;
-    color: var(--ink);
+    display: inline-flex;
+    background: var(--header-bg);
+    padding: 5px 10px;
+    border-radius: 6px;
+    width: fit-content;
+  }
+
+  .archive-logo-img {
+    height: 15px;
+    width: auto;
+    display: block;
   }
 
   .archive-card-desc {
@@ -565,7 +577,7 @@
     app.innerHTML = `
       <section class="hero">
         <div class="today-label"><span class="pulse-dot"></span><span id="kickerText">סרטון היום</span></div>
-        <h1 class="hero-title" id="videoTitle">${esc(mainVideo.title) || 'ללא כותרת'}</h1>
+        <h1 class="hero-title" id="videoTitle"><img class="hero-logo-img" src="https://i.postimg.cc/4y4jQYnn/image-removebg-preview-(1).png" alt="מעייריב"></h1>
         ${mainVideo.description ? `<p class="hero-description" id="videoDesc">${esc(mainVideo.description)}</p>` : `<p class="hero-description" id="videoDesc" style="display:none"></p>`}
 
         <div class="content-layout">
@@ -615,7 +627,7 @@
                   </div>
                   <div class="archive-info">
                     <span class="archive-card-date">${formatDate(v.date)}</span>
-                    <span class="archive-card-title">${esc(v.title) || 'ללא כותרת'}</span>
+                    <span class="archive-card-title"><img class="archive-logo-img" src="https://i.postimg.cc/4y4jQYnn/image-removebg-preview-(1).png" alt="מעייריב"></span>
                     ${v.description ? `<span class="archive-card-desc">${esc(v.description)}</span>` : ''}
                   </div>
                 </div>
@@ -737,7 +749,6 @@
   function loadVideoData(data) {
     const video = document.getElementById('mainVideo');
     document.getElementById('kickerText').textContent = formatDate(data.date);
-    document.getElementById('videoTitle').textContent = data.title || 'ללא כותרת';
     const descEl = document.getElementById('videoDesc');
     if (data.description) {
       descEl.textContent = data.description;
